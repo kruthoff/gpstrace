@@ -1,0 +1,13 @@
+# Default settings for gps trace.
+# 14.08.2013 - AKR.
+#
+# Run the gpstrace script from /etc/init.d/gpstrace (set START_DAEMON="true").
+# An alternative is to launch gpstrace via /home/pi/.config/autostart/gpstrace.desktop
+#
+
+START_DAEMON="false"
+# set to true to print to console and shutdown/poweroff
+DRIVE_MODE="true"
+
+VERBOSE=yes
+

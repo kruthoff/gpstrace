@@ -1,0 +1,160 @@
+#!/bin/sh
+#
+# 13.08.2013 - AKR - gpxlogger and file monitor
+# starts a gpxlogger with parameters
+# watches the filesize (growing or stable)
+# if stable for some intervals, we assume that
+# we're standing still, then shutdown.
+# 06.05.2014 - 'tunnel' improvement: restart
+# gpxlogger if it was terminated.
+# 12.05.2014 - simplification and got rid of
+# startup delay.
+# 13.05.2014 - check ntp for a time signal.
+# 01.06.2014 - remove small files at startup.
+# 28.07.2014 - retrieve initial time from gps
+
+MINMETERS=20 # data points must differ this amount [meters] 
+SHUTDOWNAFTER=30 # shutdown attempts, if no data is coming in
+LOG_STEP=6 # log interval for this monitor 
+SLEEP_TIME=10 # sleep interval [seconds]
+
+# load defaults
+[ -r /etc/default/gpstrace ] && . /etc/default/gpstrace
+
+ID=$(/bin/cat /home/pi/gps/id) # id is a filename prefix
+
+# log existing traces, file size and name
+echo stored data files:
+ls -ltr /home/pi/gps/traces/*.bz2 | awk {'print $5, $9'}
+
+# compress old traces
+for i in `/usr/bin/find /home/pi/gps/traces -name "*.gpx"`; do
+  echo compressing $i
+  /bin/bzip2 -9 -f $i
+done
+
+# remove small files
+for i in `/usr/bin/find /home/pi/gps/traces -name "*.gpx.bz2" -size 1k`; do
+  echo removing $i
+  /bin/rm $i
+done
+
+echo drivemode=${DRIVE_MODE}
+echo minmeters=${MINMETERS}m
+echo log step=${LOG_STEP}
+echo sleep time=${SLEEP_TIME}s
+echo shutdownafter=${SHUTDOWNAFTER} stable intervals
+if ps -A | fgrep gpxlogger > /dev/null; then
+  /usr/bin/killall gpxlogger
+fi
+sleep 5
+
+init_time() {
+  /home/pi/gps/gpstime.py
+}
+
+check_ntp() {
+  RETRY_INTERVAL=0
+  MAX_RETRY=30
+  # make sure ntpd got the time from gpsd
+  while :; do
+    if ntpq -p 127.0.0.1 | grep \* > /dev/null; then
+      echo "\033[32mgot time signal, cool\033[0m"
+      break
+    else
+      if [ "$RETRY_INTERVAL" -ge "$MAX_RETRY" ]; then
+        echo "\033[31;1mdid NOT get time signal\033[0m"
+        break
+      fi
+      echo "\033[31mno time signal, retry $RETRY_INTERVAL/$MAX_RETRY\033[0m"
+      RETRY_INTERVAL=$(($RETRY_INTERVAL+1));
+      sleep $SLEEP_TIME
+    fi;
+  done
+}
+
+start_gpxlogger() {
+  RESTART_INTERVAL=0
+  MAX_RESTART=30
+  # make sure gpxlogger starts up
+  while :; do
+    if ps -A | fgrep gpxlogger > /dev/null; then
+      echo "\033[32mgpxlogger is RUNNING, cool\033[0m"
+      break
+    else
+      if [ "$RESTART_INTERVAL" -ge "$MAX_RESTART" ]; then
+        echo "\033[31;1mgpxlogger can NOT be started\033[0m"
+        break
+      fi
+      # prepare current trace
+      STARTTIME=`date +%s`
+      echo "\033[32;1mstart `date +%F` `date +%T`\033[0m"
+      FILE=/home/pi/gps/traces/$ID-`date +%F_%H%M`-trace.gpx
+      echo "\033[31mgpxlogger is NOT running, starting $RESTART_INTERVAL/$MAX_RESTART\033[0m"
+      echo /usr/bin/gpxlogger -d -m $MINMETERS -i 15 -f $FILE 127.0.0.1:2947
+      /usr/bin/gpxlogger -d -m $MINMETERS -i 15 -f $FILE 127.0.0.1:2947
+      RESTART_INTERVAL=$(($RESTART_INTERVAL+1))
+      sleep $SLEEP_TIME
+    fi
+  done
+}
+
+init_time
+
+check_ntp
+
+start_gpxlogger
+
+# increase id
+ID=$(($ID+1))
+echo $ID > /home/pi/gps/id
+
+sleep 5; # sleep a bit to get a first gpx file event
+
+# main loop
+echo watching data file $FILE
+LAST=0;  # file size of last loop
+CNT=0;   # count (no data received)
+MOVE_CNT=0
+while :; do
+  SIZE=`/usr/bin/du -b $FILE | /usr/bin/awk '{print $1}'`
+  # are we still moving or not?
+  if [ "$SIZE" = "$LAST" ]; then
+    start_gpxlogger
+    CNT=$(($CNT+1))
+    echo "\033[33msize=$SIZE (no movement, shutdown attempt... $CNT/$SHUTDOWNAFTER)\033[0m"
+  else
+    # we are moving!
+    if [ "$LOG_STEP" = "$MOVE_CNT" ]; then
+      echo size=$SIZE \(collecting data...\)
+      MOVE_CNT=0
+    fi
+    LAST=$SIZE
+    CNT=0
+    MOVE_CNT=$(($MOVE_CNT+1))
+  fi
+  sleep $SLEEP_TIME
+  if [ "$CNT" -ge "$SHUTDOWNAFTER" ]; then
+    echo size=$SIZE shutdown logger...
+    NUM=`ps ax|grep -v grep|grep -v ${0}|grep -c gpxlogger`
+    if [ "$NUM" = 0 ]
+    then
+        echo "gpxlogger is not running"
+    else
+        /usr/bin/killall gpxlogger
+    fi
+    sleep 1
+    echo compressing $FILE
+    /bin/bzip2 -9 -f $FILE
+    echo "\033[31;1mstop `date +%F` `date +%T`\033[0m"
+    STOPTIME=`date +%s`
+    RUNNINGTIMESECONDS=$(($STOPTIME - $STARTTIME))
+    echo running $(($RUNNINGTIMESECONDS / 60)) m
+    if [ "$DRIVE_MODE" = "true" ]; then
+      echo "\033[33;1mpoweroff!\033[0m"
+      sudo /sbin/poweroff
+    fi
+    break
+  fi
+done
+
