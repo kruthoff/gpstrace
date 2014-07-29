@@ -10,7 +10,7 @@ This code can be used to create gps traces on a Raspberry Pi without network con
 References
 ----------
 
-https://learn.adafruit.com/adafruit-pitft-28-inch-resistive-touchscreen-display-raspberry-pi
-https://learn.adafruit.com/adafruit-ultimate-gps-on-the-raspberry-pi
-http://code.google.com/p/gpstime/
+* https://learn.adafruit.com/adafruit-pitft-28-inch-resistive-touchscreen-display-raspberry-pi/
+* https://learn.adafruit.com/adafruit-ultimate-gps-on-the-raspberry-pi/
+* http://code.google.com/p/gpstime/
 
