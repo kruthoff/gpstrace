@@ -13,4 +13,5 @@ References
 * https://learn.adafruit.com/adafruit-pitft-28-inch-resistive-touchscreen-display-raspberry-pi/
 * https://learn.adafruit.com/adafruit-ultimate-gps-on-the-raspberry-pi/
 * http://code.google.com/p/gpstime/
+* http://vanheusden.com/time/rpi_gpio_ntp/
 
