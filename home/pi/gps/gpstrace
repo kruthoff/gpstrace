@@ -58,7 +58,7 @@ check_ntp() {
   MAX_RETRY=30
   # make sure ntpd got the time from gpsd
   while :; do
-    if ntpq -p 127.0.0.1 | grep \* > /dev/null; then
+    if ntpq -p 127.0.0.1 | grep '\*\|\x' > /dev/null; then
       echo "\033[32mgot time signal, cool\033[0m"
       break
     else
