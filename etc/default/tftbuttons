@@ -1,0 +1,5 @@
+# set to 'true' to enable the tftbuttons.py python script
+start_tftbuttons="true"
+
+VERBOSE=yes
+

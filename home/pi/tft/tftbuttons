@@ -1,0 +1,49 @@
+#!/usr/bin/env python
+#
+# 30.07.2014 - AKR - Runs in the background and detects if a
+# button on the TFT display was pressed. Used to switch on/off
+# the backlight.
+#
+
+import RPi.GPIO as GPIO
+import os
+from time import sleep
+
+GPIO.setmode(GPIO.BCM)
+
+#button23 = 23 # button 1 poweroff (leftmost)
+#button22 = 22
+#button27 = 27
+tftbutton = 18 # button 4 (rightmost)
+
+# prepare to control the TFT backlight
+os.system("echo 252 > /sys/class/gpio/export")
+os.system("echo 'out' > /sys/class/gpio/gpio252/direction")
+os.system("echo '1' > /sys/class/gpio/gpio252/value")
+
+
+tfton = True
+
+def switchdebounce(tftbutton):
+	global tfton
+	if tfton == True:
+		tfton = False
+		os.system("echo '0' > /sys/class/gpio/gpio252/value")
+	else:
+		tfton = True
+		os.system("echo '1' > /sys/class/gpio/gpio252/value")
+
+GPIO.setup(tftbutton, GPIO.IN, GPIO.PUD_UP)
+# callback thread
+GPIO.add_event_detect(tftbutton, GPIO.RISING, callback=switchdebounce, bouncetime=300)
+
+# main thread
+while True:
+	#if GPIO.event_detected(tftbutton):
+		#print(tftbutton)
+	# do something
+	sleep(5)
+
+GPIO.remove_event_detect(tftbutton)
+GPIO.cleanup()
+
