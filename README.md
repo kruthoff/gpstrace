@@ -9,6 +9,7 @@ This code can be used to create gps traces on a Raspberry Pi without network con
 
 Files
 -----
+<pre>
 .
 ├── etc
 │   ├── default
@@ -43,6 +44,7 @@ Files
         │   └── rpi_gpio_ntp           program to set the initial time
         └── src
             └── rpi_gpio_ntp-0.3       src code
+</pre>
 
 
 References
