@@ -38,12 +38,15 @@ Files
 │           └── tftbuttons             handle tft buttons, i.e. switch backlight
 ├── LICENSE
 ├── README.md
-└── usr
-    └── local
-        ├── bin
-        │   └── rpi_gpio_ntp           program to set the initial time
-        └── src
-            └── rpi_gpio_ntp-0.3       src code
+├── usr
+│   └── local
+│       ├── bin
+│       │   └── rpi_gpio_ntp           program to set the initial time
+│       └── src
+│           └── rpi_gpio_ntp-0.3       src code
+└── var
+    └── log
+        └── gpstrace                   gpstrace log dir
 </pre>
 
 
