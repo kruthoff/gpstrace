@@ -22,6 +22,8 @@ Files
 │   ├── kbd
 │   │   └── config                     disable console screensaver
 │   ├── ntp.conf                       get time from gpsd
+│   ├── profile.d
+│   │   └── tft.sh                     set FRAMEBUFFER device for TFT at login
 │   └── rc.local                       start rpi_gpio_ntp
 ├── home
 │   └── pi
