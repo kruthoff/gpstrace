@@ -14,7 +14,7 @@ GPIO.setmode(GPIO.BCM)
 #button23 = 23 # button 1 poweroff (leftmost)
 #button22 = 22
 #button27 = 27
-tftbutton = 18 # button 4 (rightmost)
+button_backlight = 18 # button 4 (rightmost)
 
 # prepare to control the TFT backlight
 os.system("echo 252 > /sys/class/gpio/export")
@@ -24,7 +24,7 @@ os.system("echo '1' > /sys/class/gpio/gpio252/value")
 
 tfton = True
 
-def switchdebounce(tftbutton):
+def switchdebounce(button_backlight):
 	global tfton
 	if tfton == True:
 		tfton = False
@@ -33,17 +33,17 @@ def switchdebounce(tftbutton):
 		tfton = True
 		os.system("echo '1' > /sys/class/gpio/gpio252/value")
 
-GPIO.setup(tftbutton, GPIO.IN, GPIO.PUD_UP)
+GPIO.setup(button_backlight, GPIO.IN, GPIO.PUD_UP)
 # callback thread
-GPIO.add_event_detect(tftbutton, GPIO.RISING, callback=switchdebounce, bouncetime=300)
+GPIO.add_event_detect(button_backlight, GPIO.RISING, callback=switchdebounce, bouncetime=300)
 
 # main thread
 while True:
-	#if GPIO.event_detected(tftbutton):
-		#print(tftbutton)
+	#if GPIO.event_detected(button_backlight):
+		#print(button_backlight)
 	# do something
 	sleep(5)
 
-GPIO.remove_event_detect(tftbutton)
+GPIO.remove_event_detect(button_backlight)
 GPIO.cleanup()
 
