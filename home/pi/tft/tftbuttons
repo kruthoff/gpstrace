@@ -33,7 +33,7 @@ def switchdebounce(button_backlight):
 		tfton = True
 		os.system("echo '1' > /sys/class/gpio/gpio252/value")
 
-GPIO.setup(button_backlight, GPIO.IN, GPIO.PUD_UP)
+GPIO.setup(button_backlight, GPIO.IN, GPIO.PUD_UP) # pull_up_down
 # callback thread
 GPIO.add_event_detect(button_backlight, GPIO.RISING, callback=switchdebounce, bouncetime=300)
 
