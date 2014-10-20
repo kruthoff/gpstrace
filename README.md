@@ -13,42 +13,43 @@ Files
 .
 ├── etc
 │   ├── default
-│   │   ├── console-setup              defines a small console font
-│   │   ├── gpstrace                   flags for gpstrace script
-│   │   └── tftbuttons                 flags for tftbuttons script
+│   │   ├── console-setup                 defines a small console font
+│   │   ├── gpsd                          flags for gpsd on GPIO
+│   │   ├── gpstrace                      flags for gpstrace script
+│   │   └── tftbuttons                    flags for tftbuttons script
 │   ├── init.d
-│   │   ├── gpstrace                   start/stop script
-│   │   └── tftbuttons                 start/stop script
+│   │   ├── gpstrace                      start/stop script
+│   │   └── tftbuttons                    start/stop script
 │   ├── kbd
-│   │   └── config                     disable console screensaver
-│   ├── ntp.conf                       get time from gpsd
+│   │   └── config                        disable console screensaver
+│   ├── ntp.conf                          get time from gpsd
 │   ├── profile.d
-│   │   └── tft.sh                     set FRAMEBUFFER device for TFT at login
-│   └── rc.local                       start rpi_gpio_ntp
+│   │   └── tft.sh                        set FRAMEBUFFER device for TFT at login
+│   └── rc.local                          start rpi_gpio_ntp
 ├── home
 │   └── pi
 │       ├── .config
 │       │   └── autostart
-│       │       └── gpstrace.desktop   start gpstrace when desktop starts
+│       │       └── gpstrace.desktop      start gpstrace when desktop starts
 │       ├── gps
-│       │   ├── gpstime.py             set initial gps time to OS 
-│       │   ├── gpstrace               main trace script
-│       │   ├── id                     persisted unique trace filename prefix
-│       │   ├── startgpstrace.sh       start gpstrace in terminal when desktop starts
-│       │   └── traces                 traces are stored here
+│       │   ├── gpstime.py                set initial gps time to OS 
+│       │   ├── gpstrace                  main trace script
+│       │   ├── id                        persisted unique trace filename prefix
+│       │   ├── startgpstrace.sh          start gpstrace in terminal when desktop starts
+│       │   └── traces                    traces are stored here
 │       └── tft
-│           └── tftbuttons             handle tft buttons, i.e. switch backlight
+│           └── tftbuttons                handle tft buttons, i.e. switch backlight
 ├── LICENSE
 ├── README.md
 ├── usr
 │   └── local
 │       ├── bin
-│       │   └── rpi_gpio_ntp           program to set the initial time
+│       │   └── rpi_gpio_ntp              program to set the initial time
 │       └── src
-│           └── rpi_gpio_ntp-0.3       src code
+│           └── rpi_gpio_ntp-0.3.tar.bz2  src code
 └── var
     └── log
-        └── gpstrace                   gpstrace log dir
+        └── gpstrace                      gpstrace log dir
 </pre>
 
 
