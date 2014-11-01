@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Navit
+Exec=/usr/bin/navit
+StartupNotify=false
