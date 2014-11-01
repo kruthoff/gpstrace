@@ -11,7 +11,10 @@
 #
 # By default this script does nothing.
 
+# set initial time
 /usr/local/bin/rpi_gpio_ntp -N 1 -g 4
+# start X
+su -l -c "startx" pi
 
 # Print the IP address
 _IP=$(hostname -I) || true
