@@ -3,8 +3,14 @@ gpstrace
 
 28.07.2014 - AKR - Initial version.
 
-
 This code can be used to create GPS traces on a Raspberry Pi without network connection, but with a GPS receiver using UART. It is used as a mobile device (i.e. in a car). A small TFT display was attached to see what's happening.
+
+01.11.2014 - AKR - Navit.
+
+Navit http://www.navit-project.org/ was added to the setup, to see the current position on the TFT.
+Sample configurations for 2.8" and 3.5" TFT's were added.
+
+
 
 See the WIKI for more information.
 
@@ -24,15 +30,18 @@ Files
 │   │   └── tftbuttons                    start/stop script
 │   ├── kbd
 │   │   └── config                        disable console screensaver
+│   ├── navit
+│   │   └── navit.xml                     navit configuration
 │   ├── ntp.conf                          get time from gpsd
 │   ├── profile.d
 │   │   └── tft.sh                        set FRAMEBUFFER device for TFT at login
-│   └── rc.local                          start rpi_gpio_ntp
+│   └── rc.local                          start rpi_gpio_ntp, startx
 ├── home
 │   └── pi
 │       ├── .config
 │       │   └── autostart
-│       │       └── gpstrace.desktop      start gpstrace when desktop starts
+│       │       ├── gpstrace.desktop      start gpstrace when desktop starts
+│       │       └── navit.desktop         start navit when desktop starts
 │       ├── gps
 │       │   ├── gpstime.py                set initial gps time to OS 
 │       │   ├── gpstrace                  main trace script
@@ -40,7 +49,7 @@ Files
 │       │   ├── startgpstrace.sh          start gpstrace in terminal when desktop starts
 │       │   └── traces                    traces are stored here
 │       └── tft
-│           └── tftbuttons                handle tft buttons, i.e. switch backlight
+│           └── tftbuttons                handle 2.8" TFT buttons, i.e. switch backlight
 ├── LICENSE
 ├── README.md
 ├── usr
