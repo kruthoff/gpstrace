@@ -31,7 +31,7 @@
 		[D][D]DMM.ss[S][S]... N/S [D][D]DMM.ss[S][S]... E/W 
 		[-][D]D.d[d]... [-][D][D]D.d[d]... 
 		[-]0xX [-]0xX -->
-	<navit center="4746 N 0844 E" autozoom_active="1" zoom="256" tracking="1" orientation="-1" recent_dest="10">
+	<navit center="4746 N 0844 E" autozoom_active="1" autozoom="30" zoom="256" tracking="1" orientation="-1" recent_dest="10" timeout="10">
 		<!-- Use one of gtk_drawing_area, qt_qpainter or sdl. 
 		     On windows systems, use win32 -->
 		<graphics type="gtk_drawing_area"/>
@@ -118,15 +118,16 @@ Navigation</text></img>
                 <!-- navigation.item.destination_time[arrival] -->
 
                 <osd enabled="yes" type="gps_status" w="50" h="50" x="-50" y="60"/>
-		<osd enabled="yes" type="compass" font_size="150" w="50" h="70" x="-50" y="120"/>
+		<osd enabled="no" type="compass" font_size="150" w="50" h="70" x="-50" y="120"/>
+		<osd enabled="yes" type="button" w="50" h="50" x="-50" y="110" src="gui_select_country_48_48.png" command='spawn("/home/pi/tft/toggle.sh")' />
                 <osd enabled="no" type="odometer" w="350" h="50" x="10" y="10" font_size="350" label="Dist:${distance} ; Avg:${avg_spd}" name="persistent_odometer_1" disable_reset="1" />
                 <osd enabled="yes" type="speed_warner" w="50" h="50" x="-50" y="200" font_size="350" speed_exceed_limit_offset="15" speed_exceed_limit_percent="10" announce_on="1" label="text_only" />
    
-                <osd enabled="no" type="button" x="-96" y="-96" command='spawn("ls","/bin")' src="zoom_in.png"/>
+                <osd enabled="no" type="button" x="-96" y="-96" command='spawn("/home/pi/tft/toggle.sh")' />
 
 
 		<!-- Vehicle with GPS enabled for gpsd on unix -->
-		<vehicle name="Local GPS" profilename="car" enabled="yes" follow="30" follow_cursor="1" active="1" source="gpsd://localhost" gpsd_query="w+xj">
+		<vehicle name="Local GPS" profilename="car" enabled="yes" follow="5" follow_cursor="1" active="1" source="gpsd://localhost" gpsd_query="w+xj">
 		<!-- Vehicle with GPS enabled for direct communication on windows. Remove the line above if you use this. -->
 		<!-- <vehicle name="Local GPS" profilename="car" follow="1" enabled="yes" active="1" 
 				source="serial:COM4 baud=4800 parity=N data=8 stop=1" > -->
