@@ -49,7 +49,9 @@ Files
 │       │   ├── startgpstrace.sh          start gpstrace in terminal when desktop starts
 │       │   └── traces                    traces are stored here
 │       └── tft
-│           └── tftbuttons                handle 2.8" TFT buttons, i.e. switch backlight
+│           ├── duty                      store brightness of 3.5" TFT backlight
+│           ├── tftbuttons                handle 2.8" TFT buttons, i.e. switch backlight
+│           └── toggle.sh                 switch brightness of 3.5" TFT backlight
 ├── LICENSE
 ├── README.md
 ├── usr
