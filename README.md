@@ -24,14 +24,14 @@ Files
 │   │   ├── console-setup                 defines a small console font
 │   │   ├── gpsd                          flags for gpsd on GPIO
 │   │   ├── gpstrace                      flags for gpstrace script
-│   │   └── tftbuttons                    flags for tftbuttons script
+│   │   └── tftbuttons                    flags for 2.8" TFT tftbuttons script
 │   ├── init.d
-│   │   ├── gpstrace                      start/stop script
+│   │   ├── gpstrace                      boot console start/stop script
 │   │   └── tftbuttons                    start/stop script
 │   ├── kbd
-│   │   └── config                        disable console screensaver
+│   │   └── config                        disable boot console screensaver
 │   ├── navit
-│   │   └── navit.xml                     navit configuration
+│   │   └── navit.xml                     navit configuration with OSD for 3.5" TFT
 │   ├── ntp.conf                          get time from gpsd
 │   ├── profile.d
 │   │   └── tft.sh                        set FRAMEBUFFER device for TFT at login
@@ -40,7 +40,7 @@ Files
 │   └── pi
 │       ├── .config
 │       │   └── autostart
-│       │       ├── gpstrace.desktop      start gpstrace when desktop starts
+│       │       ├── gpstrace.desktop      start gpstrace when desktop starts (default)
 │       │       └── navit.desktop         start navit when desktop starts
 │       ├── gps
 │       │   ├── gpstime.py                set initial gps time to OS 
@@ -57,12 +57,12 @@ Files
 ├── usr
 │   └── local
 │       ├── bin
-│       │   └── rpi_gpio_ntp              program to set the initial time
+│       │   └── rpi_gpio_ntp              program to set the initial time from PPS
 │       └── src
 │           └── rpi_gpio_ntp-0.3.tar.bz2  src code
 └── var
     └── log
-        └── gpstrace                      gpstrace log dir
+        └── gpstrace                      gpstrace log dir, if started via boot console
 </pre>
 
 
