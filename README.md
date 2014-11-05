@@ -5,6 +5,8 @@ gpstrace
 
 This code can be used to create GPS traces on a Raspberry Pi without network connection, but with a GPS receiver using UART. It is used as a mobile device (i.e. in a car). A small TFT display was attached to see what's happening.
 
+The scripts which are required to run gpstrace were put into the operating system, with the intention to "just boot" your Raspberry Pi and "everything works automatically".
+
 01.11.2014 - AKR - Navit.
 
 Navit http://www.navit-project.org/ was added to the setup, to see the current position on the TFT.
@@ -12,7 +14,7 @@ Sample configurations for 2.8" and 3.5" TFT's were added.
 
 
 
-See the WIKI for more information.
+See the [WIKI](https://github.com/kruthoff/gpstrace/wiki) for more information.
 
 
 Files
